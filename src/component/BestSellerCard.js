@@ -11,7 +11,7 @@ function BestSellerCard() {
   };
   async function getBestSeller() {
     const bestseller = await axios.get('/order/bestseller')
-    console.log(bestseller)
+
     if (bestseller) {
       const { data: { data } } = bestseller
       setState(data)

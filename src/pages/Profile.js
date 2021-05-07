@@ -174,6 +174,7 @@ function Profile() {
                 background: "inherit",
                 color: 'white',
                 border: 'none',
+                outline: 'none',
                 height: '40px',
                 marginLeft: '100px',
                 fontSize: '16px',
@@ -203,7 +204,7 @@ function Profile() {
         <div className='App-profile-content1'>
           <div className='profile-pic'>
             <div>
-              <img src="https://picsum.photos/200" alt="profile-picture"></img>
+              <img src="https://picsum.photos/200" style={{ borderRadius: '200px' }} alt="profile-picture"></img>
             </div>
 
           </div>
@@ -247,7 +248,7 @@ function Profile() {
                       border: 'none',
                       backgroundColor: '#ee316b',
                       color: 'white'
-                    }} type={changePasswordMode.text} onChange={(e) => handlerModalPassword(e)} id="oldpassword" value={password.oldpassword}></input>
+                    }} type={changePasswordMode.text} onChange={(e) => handlerModalPassword(e)} id="oldPassword" value={password.oldpassword}></input>
                     <Button style={{
                       border: 'none',
 

@@ -24,14 +24,19 @@ function ProductPage() {
       <div style={{
         paddingTop: '20px',
         paddingBottom: '6px',
-        height: '84%'
-      }}>{
-          categories?.map((item) => {
+
+      }}>
+        {
+          categories?.map((item, index) => {
             const { id, name } = item
             return (
-              <>
-                <SnackCarousel category={id} name={name} />
-              </>
+
+              <div>
+                <SnackCarousel key={id} category={id} name={name} />
+              </div>
+
+
+
             )
           })
         }

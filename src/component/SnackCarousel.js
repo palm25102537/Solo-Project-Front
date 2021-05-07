@@ -20,7 +20,7 @@ function SnackCarousel(props) {
     height: '320px',
     textAlign: 'center'
   };
-  useEffect(() => getProductData(), [])
+  useEffect(() => { getProductData() }, [])
   return (
     <div>
       <h2 style={{ paddingLeft: '10px', color: 'white' }}>{name}</h2>

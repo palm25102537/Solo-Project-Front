@@ -31,9 +31,9 @@ function SignInPage() {
       let respond = await axios.post('/user', state)
 
       const { data: { data, message, token } } = respond
-      console.log(data)
+
       dispatch({ type: 'getToken', token, user: data.id })
-      // alert(message)
+
       history.push('/')
     } catch (err) {
       console.log(err.response)
