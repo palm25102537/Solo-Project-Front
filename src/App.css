@@ -1,0 +1,218 @@
+.App {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100%;
+  background-color: #fdbb75;
+}
+
+.App-header {
+  background-color: #ee87bcbb;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  height: 8vh;
+}
+.App-header-text {
+  display: flex;
+  justify-content: flex-start;
+  /* background-color: blue; */
+  align-items: center;
+  width: 50%;
+}
+.App-header-search {
+  /* background-color: aqua; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 50%;
+}
+.App-search-bar {
+  display: flex;
+  margin-left: 5px;
+  margin-right: 10px;
+  height: 20px;
+  border-radius: 5px;
+  border: none;
+}
+.App-search-bar:focus {
+  background-color: #8dc6bf;
+  outline: none;
+  border: none;
+}
+.card-container {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  background-color: white;
+  width: 200px;
+}
+.App-buttomer {
+  background-color: #ee87bcbb;
+  width: 100%;
+  display: flex;
+  padding-top: 10px;
+  height: 8vh;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.button-buttom:focus {
+  outline: none;
+  border: none;
+}
+
+.App-login {
+  /* background-color: aqua; */
+  text-align: center;
+  width: 100%;
+  height: 20%;
+  padding-top: 57.5px;
+  font-size: 26px;
+}
+
+.App-login-input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+}
+
+.signIn-input1 {
+  margin-top: 80px;
+  width: 250px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  background-color: #8dc6bf;
+}
+.signIn-input2 {
+  margin-top: 40px;
+  width: 250px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  background-color: #8dc6bf;
+}
+
+.signIn-input1:focus,
+.signIn-input2:focus {
+  background-color: white;
+  outline: none;
+}
+
+.App-login-button-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.App-login-bottom {
+  text-align: center;
+}
+.App-signUp-header {
+  width: 100%;
+  height: 15vh;
+  /* background-color: #8dc6bf; */
+  text-align: start;
+  padding-top: 12px;
+  padding-left: 15px;
+  font-size: 26px;
+}
+
+.App-signUp-form-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 20px;
+  height: 67vh;
+}
+
+.signUp-input {
+  width: 300px;
+  border-radius: 20px;
+  border-style: none;
+  margin-bottom: 15px;
+}
+
+.signUp-input:focus,
+.signUp-input2:focus {
+  background-color: #8dc6bf;
+  outline: none;
+}
+.signUp-input2 {
+  width: 333px;
+  height: 100px;
+  border-radius: 20px;
+  border-style: none;
+  margin-bottom: 15px;
+}
+
+.signUp-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 10vh;
+}
+
+.App-button {
+  color: white;
+  height: 40px;
+  width: 150px;
+  font-size: 18px;
+  border-radius: 20px;
+  background-color: #cdccfd;
+  border-style: none;
+}
+
+.App-button:focus {
+  border-style: none;
+  outline: none;
+}
+
+.App-profile-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.App-profile-content1 {
+  /* background-color: khaki; */
+  display: flex;
+}
+.profile-pic {
+  /* background-color: lavender; */
+  text-align: center;
+  width: 60%;
+  padding-top: 20px;
+}
+
+.profile-text1 {
+  /* background-color: crimson; */
+  text-align: center;
+  width: 40%;
+  padding-top: 10px;
+}
+
+.profile-content-text1 {
+  border: solid;
+  border-radius: 20px;
+  height: max-content;
+  padding: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  word-wrap: break-word;
+  color: #ee316b;
+}
+
+.profile-text2 {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 10px;
+  word-wrap: break-word;
+  width: 100%;
+  flex-direction: column;
+}
