@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Menu, Dropdown } from 'antd';
 import axios from 'axios'
+import { DownOutlined } from '@ant-design/icons'
+
 function User() {
   const [user, setUser] = useState()
   const [id, setId] = useState()
   async function getUser() {
     const res = await axios.get('/user')
+    console.log(res)
     const { data: { data } } = res
     setUser(data)
   }
@@ -72,13 +75,13 @@ function User() {
 
               <Dropdown overlay={menuRole} placement="topCenter" trigger={['click']} onClick={() => setId(item.id)}>
                 <a style={{ backgroundColor: 'inherit', border: 'none' }} >
-                  Role : {item.isAdmin}
+                  Role : {item.isAdmin} <DownOutlined />
                 </a>
               </Dropdown>
               <br />
               <Dropdown overlay={menuStatus} placement="bottomCenter" trigger={['click']} onClick={() => setId(item.id)}>
                 <a style={{ backgroundColor: 'inherit', border: 'none' }} >
-                  Status : {item.status}
+                  Status : {item.status} <DownOutlined />
                 </a>
               </Dropdown>
 

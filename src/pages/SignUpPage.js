@@ -14,24 +14,43 @@ function SignUpPage() {
     confirmPassword: '',
     email: '',
     phoneNumber: '',
-
   })
-
+  const [file, setFile] = useState(null)
   const history = useHistory()
 
   const { dispatch } = useAuthen()
   function handlerChange(event) {
     const { id, value } = event.target
     setState((previous) => ({ ...previous, [id]: value }))
-    console.log(state)
+
+  }
+  function handlePicChange(event) {
+
+    const { files } = event.target
+
+    setFile(files[0])
+
   }
   async function handlerSubmit() {
     try {
-      const respond = await axios.post('user/register', state)
-      console.log(respond)
-      const { data: { data, message, token } } = respond
-      dispatch({ type: 'getToken', token })
-      alert(message)
+      console.log('click')
+      const { name, userName, password, confirmPassword, email, phoneNumber } = state
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('userName', userName)
+      formData.append('password', password)
+      formData.append('confirmPassword', confirmPassword)
+      formData.append('email', email)
+      formData.append('phoneNumber', phoneNumber)
+      formData.append('image', file)
+
+      console.log(formData)
+      const res = await axios.post('user/register', formData)
+
+      console.log(res)
+      // const { data: { data, message, token } } = respond
+      dispatch({ type: 'getToken' })
+      // alert(message)
       history.push('/')
     } catch (err) {
       console.log(err.response)
@@ -135,7 +154,11 @@ function SignUpPage() {
             <br />
             <textarea onChange={(e) => handlerChange(e)} id='address' className="signUp-input2" type='textArea' value={state.address}></textarea>
           </div>
+          <div>
+            <input id='picture' onChange={(e) => handlePicChange(e)} type="file"></input>
+          </div>
         </div>
+        <br />
       </form>
       <div className='signUp-button-container'>
         <Button style={{

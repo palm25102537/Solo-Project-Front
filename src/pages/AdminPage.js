@@ -3,6 +3,9 @@ import Bottom from '../component/Bottom'
 import { useAuthen } from '../context/AuthenContextProvider'
 import User from '../component/User'
 import Product from '../component/Product'
+import { useHistory } from 'react-router-dom'
+import axios from 'axios'
+
 
 function AdminPage() {
   const [nameUser, setNameUser] = useState()
@@ -12,16 +15,30 @@ function AdminPage() {
     product: false,
     order: false,
     supplier: false,
-    transport: false
+    transport: false,
+
   })
+
+  const history = useHistory()
 
 
   const { state, getMe } = useAuthen()
+  const [supplier, setSupplier] = useState()
+  const [category, setCategory] = useState()
   useEffect(async () => {
     const respond = await getMe(state.user)
-    const { name } = respond
 
+    const { name, isAdmin } = respond
+
+    if (isAdmin !== "Admin") history.push('/')
     setNameUser(name)
+
+    const supply = await axios.get('/supplier')
+    setSupplier(supply)
+
+    const cat = await axios.get('/category')
+    console.log(cat)
+    setCategory(cat)
 
   }, [])
 
@@ -66,7 +83,7 @@ function AdminPage() {
         {
           !status.user && !status.order && !status.product && !status.supplier && !status.transport && (
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
-              <h1 style={{ color: 'white' }}><strong>WELCOME {nameUser?.toUpperCase()}</strong></h1>
+              <h1 style={{ color: 'white' }}><strong>WELCOME <br /> {nameUser?.toUpperCase()}</strong></h1>
             </div>
           )
         }
@@ -80,7 +97,7 @@ function AdminPage() {
         {
           status.product && (
             <div>
-              <Product />
+              <Product supplier={supplier} category={category} />
             </div>
           )
         }

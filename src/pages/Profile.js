@@ -4,6 +4,8 @@ import { Button, Modal } from 'antd';
 import axios from 'axios'
 import { EyeOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom'
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 function Profile() {
   const [state, setState] = useState({})
@@ -54,17 +56,24 @@ function Profile() {
     status: false,
     text: 'password'
   })
+  const [visible, setVisible] = useState(false)
+  const [pic, setPic] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+
   async function getData() {
     const respond = await axios.get('/user/me')
 
-    const { data: { data: { name, userName, email, phoneNumber, address, isAdmin } } } = respond
+    const { data: { data: { name, userName, email, phoneNumber, address, isAdmin, id, picture } } } = respond
 
-    setState({ name, userName, email, phoneNumber, address, isAdmin })
+    setState({ name, userName, email, phoneNumber, address, isAdmin, id, picture })
   }
 
   const history = useHistory()
 
-  useEffect(() => { getData() }, {})
+  useEffect(() => { getData() }, [])
 
 
   async function handlerEdit(event) {
@@ -75,7 +84,7 @@ function Profile() {
     if (event.key === "Enter") {
       if (editMode.status === true) {
 
-        await axios.put('/user', { address: editMode.word })
+        await axios.put('/user', { address: editMode.word, id: state.id })
 
         setEditMode({ status: false })
 
@@ -87,7 +96,7 @@ function Profile() {
 
   function handlerEditAddress(event) {
     editMode.word = event.target.value
-    console.log(editMode)
+
   }
 
   function handlerEditPwd(event) {
@@ -105,10 +114,12 @@ function Profile() {
   function handlerModalPassword(event) {
     const { id, value } = event.target
     setPassword((previous) => ({ ...previous, [id]: value }))
+
   }
 
   async function handlerChangePassword() {
-    await axios.put('/user', password)
+    const { newpassword, oldpassword, confirmPassword } = password
+    await axios.put('/user', { newpassword, oldpassword, confirmPassword, id: state.id })
     setEditPwd({ status: false })
     getData()
   }
@@ -119,7 +130,7 @@ function Profile() {
 
   async function handlerEditName(event) {
     if (event.key === 'Enter') {
-      await axios.put('/user', { name: editName.word })
+      await axios.put('/user', { name: editName.word, id: state.id })
       setEditName({ status: false })
       getData()
     }
@@ -128,7 +139,7 @@ function Profile() {
 
   async function handlerEditUsername(event) {
     if (event.key === 'Enter') {
-      await axios.put('user', { userName: editUsername.word })
+      await axios.put('user', { userName: editUsername.word, id: state.id })
       setEditUsername({ status: false })
       getData()
     }
@@ -143,7 +154,7 @@ function Profile() {
 
     if (event.key === 'Enter') {
       const isEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
-      !isEmail.test(editEmail.word) ? alert('Invalid Email') : await axios.put('/user', { email: editEmail.word })
+      !isEmail.test(editEmail.word) ? alert('Invalid Email') : await axios.put('/user', { email: editEmail.word, id: state.id })
       setEditEmail({ status: false })
       getData()
     }
@@ -159,6 +170,31 @@ function Profile() {
   function handlerChangePhoneNumber(event) {
     editPhoneNumber.word = event.target.value
   }
+  function handeleChangeImage(event) {
+    const { files } = event.target
+    console.log(files)
+    setPic(files[0])
+  }
+
+  async function editImage() {
+    const formData = new FormData()
+    formData.append('image', pic)
+    try {
+      setLoading(true)
+      await axios.put('user/image', formData)
+
+
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setLoading(false)
+      setVisible(false)
+      getData()
+    }
+
+  }
+
+
   return (
     <div className="App">
       <div style={{ height: '92vh' }}>
@@ -203,8 +239,8 @@ function Profile() {
         </div>
         <div className='App-profile-content1'>
           <div className='profile-pic'>
-            <div>
-              <img src="https://picsum.photos/200" style={{ borderRadius: '200px' }} alt="profile-picture"></img>
+            <div onClick={() => setVisible(true)}>
+              <img src={state.picture} style={{ borderRadius: '200px', width: '200px', height: '200px' }} alt="profile-picture"></img>
             </div>
 
           </div>
@@ -241,14 +277,15 @@ function Profile() {
                 <h4 className='profile-content-text1'>##############</h4>
                 <Modal visible={editPwd.status} onOk={handlerChangePassword} onCancel={() => setEditPwd({ status: false })}>
                   <p>Change Password</p>
-                  <label htmlFor="oldPassword">Old Password : </label>
+                  <label htmlFor="oldpassword">Old Password : </label>
                   <span>
                     <input style={{
                       outline: 'none',
                       border: 'none',
                       backgroundColor: '#ee316b',
-                      color: 'white'
-                    }} type={changePasswordMode.text} onChange={(e) => handlerModalPassword(e)} id="oldPassword" value={password.oldpassword}></input>
+                      color: 'white',
+                      width: '200px'
+                    }} type={changePasswordMode.text} onChange={(e) => handlerModalPassword(e)} id="oldpassword" value={password.oldpassword}></input>
                     <Button style={{
                       border: 'none',
 
@@ -262,7 +299,8 @@ function Profile() {
                       outline: 'none',
                       border: 'none',
                       backgroundColor: '#ee316b',
-                      color: 'white'
+                      color: 'white',
+                      width: '194px'
                     }} type={changePasswordMode2.text} onChange={(e) => handlerModalPassword(e)} value={password.newpassword} id='newpassword'></input>
                     <Button style={{ border: 'none' }} shape="none" size="small" icon={<EyeOutlined />} onClick={() => changePasswordMode2.status ? setChangePasswordMode2({ status: false, text: 'password' }) : setChangePasswordMode2({ status: true, text: 'text' })}></Button>
                   </span>
@@ -274,7 +312,8 @@ function Profile() {
                       outline: 'none',
                       border: 'none',
                       backgroundColor: '#ee316b',
-                      color: 'white'
+                      color: 'white',
+                      width: '171px'
                     }} type={changePasswordMode3.text} onChange={(e) => handlerModalPassword(e)} id='confirmPassword' value={password.confirmpassword}></input>
                     <Button style={{ border: 'none' }} shape="none" size="small" icon={<EyeOutlined />} onClick={() => changePasswordMode3.status ? setChangePasswordMode3({ status: false, text: 'password' }) : setChangePasswordMode3({ status: true, text: 'text' })}></Button>
                   </span>
@@ -326,7 +365,7 @@ function Profile() {
           {editMode.status === false && (
             <div >
               <div onClick={handlerEdit}>
-                <h4 className='profile-content-text1'>{state.address ? state.address.trim() === "" ? `Please insert your address...` : state.address === null ? `Please insert your address...` : state.address : state.address}</h4>
+                <h4 className='profile-content-text1'>{state.address}</h4>
               </div>
             </div>
           )}
@@ -339,8 +378,22 @@ function Profile() {
           }
 
         </div>
+        <div>
 
+        </div>
       </div>
+      {
+        loading ? (
+          <div>
+            <h5>Loading...<Spin indicator={antIcon} /></h5>
+          </div>
+        ) : (
+          <Modal visible={visible} onCancel={() => setVisible(false)} onOk={editImage}>
+            <h1>Change Image</h1>
+            <input type='file' onChange={(e) => handeleChangeImage(e)}></input>
+          </Modal >)
+      }
+
       <Bottom />
     </div >
   )
