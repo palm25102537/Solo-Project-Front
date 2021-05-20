@@ -5,7 +5,7 @@ import { Carousel } from 'antd';
 function PromotionCard() {
   const contentStyle = {
 
-    height: '300px',
+    height: '320px',
     textAlign: 'center'
   };
   return (

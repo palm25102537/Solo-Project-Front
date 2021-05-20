@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import { UserOutlined, EyeOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom'
 import axios from '../config/axios'
-import { useAuthen } from '../context/AuthenContextProvider'
+import { useAuthContext } from '../context/AuthenContextProvider'
 
 function SignInPage() {
   const [state, setState] = useState({
@@ -14,7 +14,7 @@ function SignInPage() {
 
   const history = useHistory()
 
-  const { dispatch } = useAuthen()
+  const { dispatch } = useAuthContext()
 
   const [cover, setCover] = useState({
     status: false,
@@ -30,7 +30,7 @@ function SignInPage() {
     try {
       let respond = await axios.post('/user', state)
 
-      const { data: { data, message, token } } = respond
+      const { data: { data, token } } = respond
 
       dispatch({ type: 'getToken', token, user: data.id })
 
@@ -87,7 +87,7 @@ function SignInPage() {
           <a href="/signup">Sign up</a>
           <br />
           <br />
-          <a>Reset Password</a>
+          <a href='/'>Reset Password</a>
         </div>
       </div>
       <Bottom />

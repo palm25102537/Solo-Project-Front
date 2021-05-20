@@ -63,6 +63,7 @@ function User() {
   }
   return (
     <div className="App">
+      <h1 style={{ textAlign: 'center', marginTop: '10px' }}>Manage User</h1>
       {
         user?.map((item) => {
 
@@ -71,17 +72,17 @@ function User() {
               <div>
                 <p style={{ color: 'white' }}>User number {item.id}</p>
               </div>
-              <p style={{ color: 'white' }}>Name : {item.name} <span>Email : {item.email} </span></p>
+              <p style={{ color: 'white' }}>Name : <strong>{item.name}</strong> <span>Email : <strong>{item.email}</strong> </span></p>
 
               <Dropdown overlay={menuRole} placement="topCenter" trigger={['click']} onClick={() => setId(item.id)}>
                 <a style={{ backgroundColor: 'inherit', border: 'none' }} >
-                  Role : {item.isAdmin} <DownOutlined />
+                  Role : <strong>{item.isAdmin}</strong> <DownOutlined />
                 </a>
               </Dropdown>
               <br />
               <Dropdown overlay={menuStatus} placement="bottomCenter" trigger={['click']} onClick={() => setId(item.id)}>
                 <a style={{ backgroundColor: 'inherit', border: 'none' }} >
-                  Status : {item.status} <DownOutlined />
+                  Status : <strong>{item.status}</strong> <DownOutlined />
                 </a>
               </Dropdown>
 

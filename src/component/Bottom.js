@@ -8,14 +8,15 @@ import {
   UserAddOutlined
 } from '@ant-design/icons'
 import { useHistory } from 'react-router-dom'
-import { useAuthen } from '../context/AuthenContextProvider'
+import { useAuthContext } from '../context/AuthenContextProvider'
 import service from '../services/localStorageService'
 
 const { getToken } = service
 
 function Buttom() {
+
   const history = useHistory()
-  const { state, dispatch } = useAuthen()
+  const { state, dispatch, setCheckCart } = useAuthContext()
 
 
   function handlerSignOut() {
@@ -31,12 +32,12 @@ function Buttom() {
       </div>
 
       <div>
-        <button className="button-buttom" style={{ backgroundColor: `inherit`, border: 'none' }}><ShoppingCartOutlined style={{ marginTop: '3px', fontSize: '32px', color: '#FFFFFF' }} />
+        <button onClick={() => setCheckCart(true)} className="button-buttom" style={{ backgroundColor: `inherit`, border: 'none' }}><ShoppingCartOutlined style={{ marginTop: '3px', fontSize: '32px', color: '#FFFFFF' }} />
           <br /><p style={{ color: 'white' }}>Cart</p></button>
       </div>
       <div>
         <button onClick={() => history.push('/product')} className="button-buttom" style={{ backgroundColor: `inherit`, border: 'none' }}><ShopOutlined style={{ marginTop: '3px', fontSize: '32px', color: '#FFFFFF' }} />
-          <br /><p style={{ color: 'white' }}>Product</p></button>
+          <br /><p style={{ color: 'white' }}>{state.isAuthen ? `Shopping` : `Product`}</p></button>
       </div>
       {
         !state.isAuthen ? (

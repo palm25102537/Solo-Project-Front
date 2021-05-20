@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Bottom from '../component/Bottom'
-import { useAuthen } from '../context/AuthenContextProvider'
+import { useAuthContext } from '../context/AuthenContextProvider'
 import User from '../component/User'
 import Product from '../component/Product'
+import Order from '../component/Order'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
@@ -22,7 +23,7 @@ function AdminPage() {
   const history = useHistory()
 
 
-  const { state, getMe } = useAuthen()
+  const { state, getMe } = useAuthContext()
   const [supplier, setSupplier] = useState()
   const [category, setCategory] = useState()
   useEffect(async () => {
@@ -37,7 +38,7 @@ function AdminPage() {
     setSupplier(supply)
 
     const cat = await axios.get('/category')
-    console.log(cat)
+
     setCategory(cat)
 
   }, [])
@@ -45,7 +46,7 @@ function AdminPage() {
   return (
     <div className="App">
       <div style={{
-        height: status.product ? '92%' : '92vh'
+        height: status.product || status.order ? '92%' : '92vh'
       }}>
         <div style={{
           height: '5vh',
@@ -68,7 +69,7 @@ function AdminPage() {
             width: '20vw',
             backgroundColor: 'inherit',
             border: 'none',
-          }}>Order</button>
+          }} onClick={() => setStatus({ order: true })}>Order</button>
           <button style={{
             width: '20vw',
             backgroundColor: 'inherit',
@@ -98,6 +99,14 @@ function AdminPage() {
           status.product && (
             <div>
               <Product supplier={supplier} category={category} />
+            </div>
+          )
+        }
+        {
+          status.order && (
+            <div >
+              <Order />
+              <br />
             </div>
           )
         }

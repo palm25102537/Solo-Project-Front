@@ -245,3 +245,8 @@
   background-color: #ed639e;
   border: solid 1px;
 }
+
+td,
+th {
+  padding: 8px;
+}

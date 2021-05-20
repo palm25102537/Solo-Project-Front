@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Bottom from '../component/Bottom'
 import { Button } from 'antd';
 import axios from 'axios'
-import { useAuthen } from '../context/AuthenContextProvider'
+import { useAuthContext } from '../context/AuthenContextProvider'
 import { useHistory } from 'react-router-dom'
 import { EyeOutlined } from '@ant-design/icons';
 
@@ -18,7 +18,7 @@ function SignUpPage() {
   const [file, setFile] = useState(null)
   const history = useHistory()
 
-  const { dispatch } = useAuthen()
+  const { dispatch } = useAuthContext()
   function handlerChange(event) {
     const { id, value } = event.target
     setState((previous) => ({ ...previous, [id]: value }))

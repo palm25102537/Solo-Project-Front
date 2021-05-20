@@ -6,7 +6,7 @@ function BestSellerCard() {
   const [state, setState] = useState()
   const contentStyle = {
 
-    height: '300px',
+    height: '320px',
     textAlign: 'center'
   };
   async function getBestSeller() {
@@ -32,9 +32,11 @@ function BestSellerCard() {
               <div key={index} >
 
                 <div>
-                  <img src="https://picsum.photos/200" style={{
+                  <img src={picture || "https://picsum.photos/200"} style={{
                     marginLeft: 'auto',
                     marginRight: 'auto',
+                    width: '200px',
+                    height: '200px'
                   }}></img>
                   <div className="card-container">
                     <p>Product : {name}</p>

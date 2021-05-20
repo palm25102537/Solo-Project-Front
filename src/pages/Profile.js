@@ -6,6 +6,8 @@ import { EyeOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom'
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { useAuthContext } from '../context/AuthenContextProvider'
+import CartModal from '../component/CartModal'
 
 function Profile() {
   const [state, setState] = useState({})
@@ -58,11 +60,11 @@ function Profile() {
   })
   const [visible, setVisible] = useState(false)
   const [pic, setPic] = useState(null)
-  const [loading, setLoading] = useState(false)
+
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-
+  const { loading, setLoading } = useAuthContext()
   async function getData() {
     const respond = await axios.get('/user/me')
 
@@ -182,8 +184,6 @@ function Profile() {
     try {
       setLoading(true)
       await axios.put('user/image', formData)
-
-
     } catch (err) {
       console.log(err)
     } finally {
@@ -240,7 +240,7 @@ function Profile() {
         <div className='App-profile-content1'>
           <div className='profile-pic'>
             <div onClick={() => setVisible(true)}>
-              <img src={state.picture} style={{ borderRadius: '200px', width: '200px', height: '200px' }} alt="profile-picture"></img>
+              <img src={state.picture || "https://picsum.photos/200"} style={{ borderRadius: '200px', width: '200px', height: '200px' }} alt="profile-picture"></img>
             </div>
 
           </div>
@@ -284,7 +284,7 @@ function Profile() {
                       border: 'none',
                       backgroundColor: '#ee316b',
                       color: 'white',
-                      width: '200px'
+                      width: '190px'
                     }} type={changePasswordMode.text} onChange={(e) => handlerModalPassword(e)} id="oldpassword" value={password.oldpassword}></input>
                     <Button style={{
                       border: 'none',
@@ -300,7 +300,7 @@ function Profile() {
                       border: 'none',
                       backgroundColor: '#ee316b',
                       color: 'white',
-                      width: '194px'
+                      width: '186px'
                     }} type={changePasswordMode2.text} onChange={(e) => handlerModalPassword(e)} value={password.newpassword} id='newpassword'></input>
                     <Button style={{ border: 'none' }} shape="none" size="small" icon={<EyeOutlined />} onClick={() => changePasswordMode2.status ? setChangePasswordMode2({ status: false, text: 'password' }) : setChangePasswordMode2({ status: true, text: 'text' })}></Button>
                   </span>
@@ -313,7 +313,7 @@ function Profile() {
                       border: 'none',
                       backgroundColor: '#ee316b',
                       color: 'white',
-                      width: '171px'
+                      width: '165px'
                     }} type={changePasswordMode3.text} onChange={(e) => handlerModalPassword(e)} id='confirmPassword' value={password.confirmpassword}></input>
                     <Button style={{ border: 'none' }} shape="none" size="small" icon={<EyeOutlined />} onClick={() => changePasswordMode3.status ? setChangePasswordMode3({ status: false, text: 'password' }) : setChangePasswordMode3({ status: true, text: 'text' })}></Button>
                   </span>
@@ -382,18 +382,24 @@ function Profile() {
 
         </div>
       </div>
-      {
-        loading ? (
-          <div>
-            <h5>Loading...<Spin indicator={antIcon} /></h5>
-          </div>
-        ) : (
-          <Modal visible={visible} onCancel={() => setVisible(false)} onOk={editImage}>
-            <h1>Change Image</h1>
-            <input type='file' onChange={(e) => handeleChangeImage(e)}></input>
-          </Modal >)
-      }
 
+
+      <Modal visible={visible} onCancel={() => setVisible(false)} onOk={editImage}>
+        {
+          loading ? (
+            <div>
+              <h5>Loading...<Spin indicator={antIcon} /></h5>
+            </div>
+          ) : (
+            <div>
+              <h1>Change Image</h1>
+              <input type='file' onChange={(e) => handeleChangeImage(e)}></input>
+            </div>
+          )
+        }
+      </Modal >
+
+      <CartModal />
       <Bottom />
     </div >
   )

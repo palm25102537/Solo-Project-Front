@@ -3,10 +3,14 @@ import SnackCarousel from '../component/SnackCarousel'
 import Head from '../component/Head'
 import Bottom from '../component/Bottom'
 import axios from 'axios'
-
+import service from '../services/localStorageService'
+import CartModal from '../component/CartModal'
 function ProductPage() {
+  const { getToken } = service
+  const token = getToken()
 
   const [categories, setCategories] = useState()
+
   async function getCategory() {
     const cat = await axios.get('/category')
 
@@ -32,7 +36,8 @@ function ProductPage() {
             return (
 
               <div>
-                <SnackCarousel key={id} category={id} name={name} />
+                <SnackCarousel token={token} key={id} category={id} name={name} />
+
               </div>
 
 
@@ -41,6 +46,7 @@ function ProductPage() {
           })
         }
       </div>
+      <CartModal />
       <Bottom />
     </div >
 

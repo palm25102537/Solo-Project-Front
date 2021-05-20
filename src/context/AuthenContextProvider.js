@@ -5,7 +5,7 @@ import axios from 'axios'
 
 const { getToken, clearToken, setToken, setUser, clearUser, getUser } = service
 
-export const create = createContext()
+export const AuthContext = createContext(null)
 
 
 const STATE = {
@@ -44,20 +44,32 @@ async function getMe(id) {
 }
 function AuthenProvider(props) {
   const [state, dispatch] = useReducer(authenToken, STATE)
+  const [loading, setLoading] = useState(false)
+  const [cart, setCart] = useState([])
+  const [checkCart, setCheckCart] = useState(false)
+  const [maxCounter, setMaxCounter] = useState()
+  const [filter, setFilter] = useState({
+    status: false,
+    word: ''
+  })
+  function showFilter(event) {
 
-  const authenProvide = { state, dispatch, getMe }
+    const { textContent } = event.target
+    setFilter({ status: true, word: textContent })
+  }
+  const authenProvide = { state, dispatch, getMe, loading, setLoading, cart, setCart, checkCart, setCheckCart, maxCounter, setMaxCounter, filter, setFilter, showFilter }
   return (
-    <create.Provider value={authenProvide}>{props.children}</create.Provider>
+    <AuthContext.Provider value={authenProvide}>{props.children}</AuthContext.Provider>
   )
 }
 
-function useAuthen() {
+function useAuthContext() {
 
-  const context = useContext(create);
+  const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useCounter must use under CounterProvider");
+    throw new Error("useAuthContext must use under AuthProvider");
   }
   return context;
 }
 
-export { AuthenProvider, useAuthen }
+export { AuthenProvider, useAuthContext }

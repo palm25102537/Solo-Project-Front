@@ -8,7 +8,7 @@ import ProfilePage from './pages/Profile'
 import ProductPage from './pages/ProductPage'
 import OrderPage from './pages/OrderPage'
 import AdminPage from './pages/AdminPage'
-import { useAuthen } from './context/AuthenContextProvider'
+import { useAuthContext } from './context/AuthenContextProvider'
 
 
 
@@ -57,15 +57,9 @@ const publicRoute = [
 ]
 
 function App() {
-  const { state } = useAuthen()
-
-
-
-
-
+  const { state } = useAuthContext()
 
   return (
-
     <BrowserRouter>
       <Switch>
         {state.isAuthen && privateRoute.map((el, index) => <Route key={index} exact path={el.path} component={el.component} />)}

@@ -4,7 +4,7 @@ import Head from '../component/Head'
 import Bottom from '../component/Bottom'
 import PromotionCard from '../component/PromotionCard'
 import BestSellerCard from '../component/BestSellerCard'
-
+import CartModal from '../component/CartModal'
 
 function HomePage() {
 
@@ -16,6 +16,8 @@ function HomePage() {
         <PromotionCard />
         <BestSellerCard />
       </div>
+      <CartModal />
+      <br />
       <Bottom />
     </div >
 
